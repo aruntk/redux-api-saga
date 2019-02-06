@@ -2,6 +2,18 @@
 
 Redux Saga API abstraction
 
+<div align="center"> 
+<a href="https://www.npmjs.com/package/redux-api-saga">
+    <img
+      src="https://img.shields.io/npm/v/redux-api-saga.svg" height="20">
+  </a>
+     <a href="https://www.npmjs.com/package/redux-api-saga">
+    <img
+      src="https://img.shields.io/npm/dt/redux-api-saga.svg" height="20">
+  </a>
+  <br/>
+</div>
+
 Takes in a config and gives you a reducer saga and a common action. 
 
 ### Setup
