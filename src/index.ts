@@ -51,7 +51,6 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
       }
       case `${opt.name}_SUCCESS`: {
         const newState = Object.assign({}, existingState, { result: payload });
-        // console.log('to get the result of auto saga', newState);
         return { ...state, [opt.name]: newState };
       }
       case 'RESET_STATE': {
@@ -95,8 +94,6 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
         if (errorHook) {
           errorHook(error, payload);
         }
-        // tslint:disable-next-line:no-console
-        console.log(error);
       }
       yield put({ type: `${type}_LOADING`, payload: { name: type, payload: false } });
     }
