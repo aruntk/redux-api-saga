@@ -98,7 +98,7 @@ import { action } from './store';
 
 ...
 
-class AutoSagaTest extends React.Component {
+class PuppyImg extends React.Component {
   state = {};
   getPuppyImg = () => {
     this.props.dispatch(action({
@@ -130,7 +130,7 @@ const mapState = (state: RootStateType) => ({
   puppyJpg: state.puppyJpg,
 });
  
-export default connect(mapState)(AutoSagaTest);
+export default connect(mapState)(PuppyImg);
 ```
 
 
