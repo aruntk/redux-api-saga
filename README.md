@@ -2,14 +2,14 @@
 
 Redux Saga API abstraction
 
-<div align="center"> 
+<div> 
 <a href="https://www.npmjs.com/package/redux-api-saga">
     <img
       src="https://img.shields.io/npm/v/redux-api-saga.svg" height="20">
   </a>
      <a href="https://www.npmjs.com/package/redux-api-saga">
-    <img
-      src="https://img.shields.io/npm/dt/redux-api-saga.svg" height="20">
+    <!--<img
+      src="https://img.shields.io/npm/dt/redux-api-saga.svg" height="20">-->
   </a>
   <br/>
 </div>
