@@ -1,6 +1,6 @@
 # redux-api-saga
 
-Redux Saga API abstraction
+REACT API calls made simple
 
 <div> 
 <a href="https://www.npmjs.com/package/redux-api-saga">
@@ -14,7 +14,7 @@ Redux Saga API abstraction
   <br/>
 </div>
 
-Takes in a config and gives you a reducer saga and a common action. 
+Its an abstraction on top of redux-saga. Takes in a config and gives you a reducer saga and a common action. 
 
 ### Setup
 
