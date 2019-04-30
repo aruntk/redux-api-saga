@@ -23,6 +23,7 @@ Its an abstraction on top of redux-saga. Takes in a config and gives you a reduc
 import init from 'redux-api-saga';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
 const defaultOnSuccess = (result) => {
   console.log(typeof result === 'string' ? result : 'Successful.' );
@@ -61,14 +62,14 @@ const reducer = apiSaga.reducer;
 const sagas = apiSaga.sagas;
 export const action = apiSaga.action;
 function* saga() {
-  yield all(apiSaga.sagas)
+  yield all(sagas);
 }
 
 // create middlewares
 const sagaMiddleware = createSagaMiddleware();
 const middleware = applyMiddleware(sagaMiddleware);
 // create store
-const store = createStore(rootReducer, middleware);
+const store = createStore(reducer, middleware);
 export default store;
 // run saga middleware
 sagaMiddleware.run(saga);
