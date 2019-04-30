@@ -29,6 +29,9 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
   const initialState = Immutable.from(iState);
 
   const reducer = (state = initialState, action: ActionType<any>) => {
+    if (action.type === 'RESET_STATE') {
+      return initialState;
+    }
     if (!action.payload) {
       return state;
     }
@@ -52,9 +55,6 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
       case `${opt.name}_SUCCESS`: {
         const newState = Object.assign({}, existingState, { result: payload });
         return { ...state, [opt.name]: newState };
-      }
-      case 'RESET_STATE': {
-        return initialState;
       }
       default: {
         return state;

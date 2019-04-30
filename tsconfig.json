@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
-    "module": "esnext",
     "target": "es5",
-    "downlevelIteration": true,
+    "module": "commonjs",
+    "outDir": "./lib",
     "lib": [
       "dom",
       "es7"
     ],
-    "sourceMap": true,
-    "allowJs": true,
     "moduleResolution": "node",
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
@@ -16,16 +14,13 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
-    "jsx": "preserve",
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "strictFunctionTypes": false
+    "strictFunctionTypes": false,
+    "declaration": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
