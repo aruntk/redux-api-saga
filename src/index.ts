@@ -120,7 +120,7 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
       return { type: 'ERROR_IN_PARAMS' };
     }
   };
-  return { reducer, sagas, action: actionFn };
+  return { reducer, sagas, action: actionFn, initialState };
 };
 
 export default init;
