@@ -50,7 +50,7 @@ const config = [
   },
 ];
 // default set of headers. you can choose to override this in every action dispatch. 
-const getReqHeaders = (state: any) => ({
+const getReqHeaders = (state) => ({
   Authorization: `bearer ${state.authToken}`,
 });
 const options = {
@@ -127,7 +127,7 @@ class PuppyImg extends React.Component {
   }
 }
  
-const mapState = (state: RootStateType) => ({
+const mapState = (state) => ({
   puppyJpg: state.puppyJpg,
 });
  
