@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 export interface Action<T> {
   type: string;
   payload?: T;
@@ -23,7 +25,7 @@ export type FlatObj = {[key: string]: strNum, [key: number]: strNum};
 
 export interface AutoSagaHooks {
   onSuccess?: (result: any, payload: any) => void;
-  onError?: (error: Error, payload: any) => void;
+  onError?: (error: AxiosError, payload: any) => void;
   getReqHeaders?: (state: any, payload: any) => void;
 }
 export interface AutoSagaConfig extends AutoSagaHooks {
