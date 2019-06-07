@@ -28,6 +28,7 @@ export interface AutoSagaHooks {
   onError?: (error: AxiosError, payload: any) => void;
   getReqHeaders?: (state: any, payload: any) => void;
 }
+export type ReduxApiSagaError = AxiosError;
 export interface AutoSagaConfig extends AutoSagaHooks {
   path: string;
   method: string;
