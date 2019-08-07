@@ -12,3 +12,4 @@ export const fetchData = (url: string, options = {}) => {
   });
 };
 
+export const CancelToken = axios.CancelToken

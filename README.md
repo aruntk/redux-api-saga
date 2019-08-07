@@ -134,4 +134,30 @@ const mapState = (state) => ({
 export default connect(mapState)(PuppyImg);
 ```
 
+### Cancel a request
+
+Use `onDispatch` hook to get the cancel function
+
+example -> 
+
+```js
+class PuppyImg extends React.Component {
+  cancelRequest = null
+  getPuppyImg = () => {
+    this.props.dispatch(action({
+      name: 'puppyJpg',
+      payload: {},
+      params: { imageId: 20345 }, // this will replace the param :imageId
+      query: { resolution: 'HD' },
+      onDispatch: (cancel, payload) => {
+        this.cancelRequest = cancel;
+      }
+    }));
+    // resultant API path -> http://localhost:3001/puppyJpg/20345?resolution=HD
+  }
+  cancelPuppyImgCall = () => {
+    this.cancelRequest && this.cancelRequest()
+  }
+  // Now call cancelPuppyImgCall in case you want to give user an option to cancel the request
+```
 

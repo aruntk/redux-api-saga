@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { AxiosError, Canceler } from 'axios';
 
 export interface Action<T> {
   type: string;
@@ -26,6 +26,7 @@ export type FlatObj = {[key: string]: strNum, [key: number]: strNum};
 export interface AutoSagaHooks {
   onSuccess?: (result: any, payload: any) => void;
   onError?: (error: AxiosError, payload: any) => void;
+  onDispatch?: (cancel: Canceler, payload: any) => void;
   getReqHeaders?: (state: any, payload: any) => void;
 }
 export type ReduxApiSagaError = AxiosError;

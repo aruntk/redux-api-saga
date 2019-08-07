@@ -1,5 +1,5 @@
 import * as effects from 'redux-saga/effects';
-import { fetchData } from './fetch';
+import { fetchData, CancelToken } from './fetch';
 import * as Immutable from 'seamless-immutable';
 import {
   ActionType,
@@ -44,15 +44,15 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
     }
     const existingState = state[opt.name];
     switch (action.type) {
-      case `${opt.name}_LOADING`: {
+      case `${opt.name}__LOADING`: {
         const newState = Object.assign({}, existingState, { loading: payload });
         return { ...state, [opt.name]: newState };
       }
-      case `${opt.name}_ERROR`: {
+      case `${opt.name}__ERROR`: {
         const newState = Object.assign({}, existingState, { error: payload });
         return { ...state, [opt.name]: newState };
       }
-      case `${opt.name}_SUCCESS`: {
+      case `${opt.name}__SUCCESS`: {
         const newState = Object.assign({}, existingState, { result: payload });
         return { ...state, [opt.name]: newState };
       }
@@ -63,58 +63,70 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
   };
 
   const sagas = config.map((o) => {
-    function* saga({ type, payload, api, onSuccess, onError, getReqHeaders }: AutoSagaArgumentType) {
+    function* saga({ type, payload, api, onSuccess, onError, getReqHeaders, onDispatch }: AutoSagaArgumentType) {
       if (!o) {
         return;
       }
+      const name = o.name;
       const state = yield select();
       const getReqHeadersDefault = options.getReqHeadersDefault || (() => ({}));
       const getReqHeadersHook = getReqHeaders || getReqHeadersDefault;
       const reqHeaders = getReqHeadersHook(state, payload);
-      yield put({ type: `${type}_LOADING`, payload: { name: type, payload: true } });
-      yield put({ type: `${type}_ERROR`, payload: { name: type, payload: '', } });
+      yield put({ type: `${name}__LOADING`, payload: { name, payload: true } });
+      yield put({ type: `${name}__ERROR`, payload: { name, payload: '', } });
       const dataReqOptions = o.method !== 'GET' ? { data: payload } : {};
+      const source = CancelToken.source();
       const reqOptions = {
         method: o.method,
         headers: reqHeaders,
+        cancelToken: source.token,
         ...dataReqOptions,
       };
       const successHook = onSuccess || o.onSuccess;
       const errorHook = onError || o.onError;
+      const _onDispatch = onDispatch || o.onDispatch;
       try {
+        if (_onDispatch) {
+          _onDispatch(source.cancel, payload);
+        }
         const result = yield call(fetchData, api, reqOptions);
         const processedResult = o.processResult ? o.processResult(result) : result;
-        yield put({ type: `${type}_SUCCESS`, payload: { name: type, payload: processedResult } });
+        yield put({ type: `${name}__SUCCESS`, payload: { name, payload: processedResult } });
         if (successHook) {
           successHook(result, payload);
         }
       } catch (error) {
         const errorMsg = typeof error === 'string' ? error : error.message;
-        yield put({ type: `${type}_ERROR`, payload: { name: type, payload: errorMsg, } });
+        yield put({ type: `${name}__ERROR`, payload: { name, payload: errorMsg, } });
         if (errorHook) {
           errorHook(error, payload);
         }
       }
-      yield put({ type: `${type}_LOADING`, payload: { name: type, payload: false } });
+      yield put({ type: `${name}__LOADING`, payload: { name, payload: false } });
     }
-    return effects[o.mode || 'takeLatest'](`${o.name}`, saga);
+    return effects[o.mode || 'takeLatest'](`${o.name}__DISPATCH`, saga);
   });
-  const actionFn = ({ name, payload, query, params, onSuccess, onError }: AutoActionArgument) => {
+  const findApiConfigFromName = (name: string) => {
     const opt = config.find((o) => {
       return o.name === name;
     });
     if (!opt) {
-      return { type: 'ERROR_IN_PARAMS' };
+      throw new Error(`${name} is not registered in redux-api-saga config`)
     }
-    const urlParser = options.urlParser || getUrl;
-    const api = urlParser(opt.path, params, query);
+    return opt
+  }
+  const actionFn = ({ name, payload, query, params, onSuccess, onError, onDispatch }: AutoActionArgument) => {
     try {
+      const opt = findApiConfigFromName(name)
+      const urlParser = options.urlParser || getUrl;
+      const api = urlParser(opt.path, params, query);
       return {
-        type: opt.name,
+        type: `${opt.name}__DISPATCH`,
         api,
         payload,
         onSuccess,
         onError,
+        onDispatch,
       };
     } catch (err) {
       return { type: 'ERROR_IN_PARAMS' };
