@@ -16,6 +16,7 @@ export interface AutoSagaArgumentType extends AutoSagaHooks {
 
 export interface AutoActionArgument extends AutoSagaHooks {
   name: string;
+  reset?: boolean;
   payload?: any;
   query?: object;
   params?: FlatObj;
