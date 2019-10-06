@@ -56,6 +56,10 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
         const newState = Object.assign({}, existingState, { result: payload });
         return { ...state, [opt.name]: newState };
       }
+      case `${opt.name}__RESET`: {
+        const newState = Object.assign({}, existingState, initialState[opt.name]);
+        return { ...state, [opt.name]: newState };
+      }
       default: {
         return state;
       }
@@ -129,7 +133,13 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
         onDispatch,
       };
     } catch (err) {
-      return { type: 'ERROR_IN_PARAMS' };
+      return {
+        type: 'ERROR_IN_PARAMS',
+        api: name,
+        params,
+        query,
+        error: err,
+      };
     }
   };
   return { reducer, sagas, action: actionFn, initialState };
