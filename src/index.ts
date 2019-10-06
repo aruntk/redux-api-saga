@@ -57,7 +57,8 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
         return { ...state, [opt.name]: newState };
       }
       case `${opt.name}__RESET`: {
-        const newState = Object.assign({}, existingState, initialState[opt.name]);
+        const resetTo = payload ? { result: payload } : initialState[opt.name];
+        const newState = Object.assign({}, resetTo);
         return { ...state, [opt.name]: newState };
       }
       default: {
@@ -119,13 +120,14 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
     }
     return opt
   }
-  const actionFn = ({ name, payload, query, params, onSuccess, onError, onDispatch }: AutoActionArgument) => {
+  const actionFn = ({ name, payload, query, params, onSuccess, onError, onDispatch, reset }: AutoActionArgument) => {
     try {
       const opt = findApiConfigFromName(name)
       const urlParser = options.urlParser || getUrl;
       const api = urlParser(opt.path, params, query);
+      const actionType = reset ? 'RESET' : 'DISPATCH';
       return {
-        type: `${opt.name}__DISPATCH`,
+        type: `${opt.name}__${actionType}`,
         api,
         payload,
         onSuccess,
