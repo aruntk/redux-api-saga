@@ -1,6 +1,6 @@
 {
   "name": "redux-api-saga",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Redux Saga API abstraction",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
