@@ -35,7 +35,7 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
     if (!action.payload) {
       return state;
     }
-    const { payload, name } = action.payload;
+    const { payload, name, resetPayload } = action.payload;
     const opt = config.find((o) => {
       return o.name === name;
     });
@@ -57,8 +57,7 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
         return { ...state, [opt.name]: newState };
       }
       case `${opt.name}__RESET`: {
-        const resetTo = payload ? { result: payload } : initialState[opt.name];
-        const newState = Object.assign({}, resetTo);
+        const newState = resetPayload ? Object.assign({}, existingState, { result: resetPayload }) : initialState[opt.name];
         return { ...state, [opt.name]: newState };
       }
       default: {

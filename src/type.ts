@@ -16,10 +16,11 @@ export interface AutoSagaArgumentType extends AutoSagaHooks {
 
 export interface AutoActionArgument extends AutoSagaHooks {
   name: string;
-  reset?: boolean;
   payload?: any;
   query?: object;
   params?: FlatObj;
+  reset?: boolean;
+  resetPayload?: any;
 }
 export type strNum = string | number;
 export type FlatObj = {[key: string]: strNum, [key: number]: strNum};
