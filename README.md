@@ -149,7 +149,7 @@ class PuppyImg extends React.Component {
       payload: {},
       params: { imageId: 20345 }, // this will replace the param :imageId
       query: { resolution: 'HD' },
-      onDispatch: (cancel, payload) => {
+      onDispatch: (cancel, state, payload) => {
         this.cancelRequest = cancel;
       }
     }));
