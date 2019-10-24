@@ -28,7 +28,7 @@ export type FlatObj = {[key: string]: strNum, [key: number]: strNum};
 export interface AutoSagaHooks {
   onSuccess?: (result: any, payload: any) => void;
   onError?: (error: AxiosError, payload: any) => void;
-  onDispatch?: (cancel: Canceler, payload: any) => void;
+  onDispatch?: (cancel: Canceler, state: any, payload: any) => void;
   getReqHeaders?: (state: any, payload: any) => void;
 }
 export type ReduxApiSagaError = AxiosError;

@@ -91,7 +91,7 @@ const init = (config: AutoSagaConfig[], options: OptionsType) => {
       const _onDispatch = onDispatch || o.onDispatch;
       try {
         if (_onDispatch) {
-          _onDispatch(source.cancel, payload);
+          _onDispatch(source.cancel, state, payload);
         }
         const result = yield call(fetchData, api, reqOptions);
         const processedResult = o.processResult ? o.processResult(result) : result;
