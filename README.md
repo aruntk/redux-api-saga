@@ -161,3 +161,15 @@ class PuppyImg extends React.Component {
   // Now call cancelPuppyImgCall in case you want to give user an option to cancel the request
 ```
 
+### Reset state
+
+```js
+this.props.dispatch(action({
+    name: 'puppyJpg',
+    reset: true,
+    // if resetPayload is not empty then the state is set to that otherwise to the initialState
+    // resetPayload: 'https://upload.wikimedia.org/wikipedia/commons/9/9c/Indian_pariah_dog_puppy_%288334906336%29.jpg'
+}))
+
+```
+
