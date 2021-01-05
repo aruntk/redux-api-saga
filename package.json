@@ -8,7 +8,7 @@
     "lib/**/*"
   ],
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "query-string": "^6.2.0",
     "redux-saga": "^1.0.1",
     "seamless-immutable": "^7.1.4"
